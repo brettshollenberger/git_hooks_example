@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+require "rake"
+require_relative "./task_runner"
+require_relative "./pre_commit_hooks/focus_finder"
+require_relative "./pre_commit_hooks/pry_finder"
+require_relative "./pre_commit_hooks/rubocop_autocorrector"
+require_relative "./pre_commit_hooks/syntax_checker"
+
+runner = TaskRunner.new(tasks: [
+  PreCommitHooks::FocusFinder.new(disabled: false),
+  PreCommitHooks::PryFinder.new(disabled: false),
+  PreCommitHooks::RubocopAutocorrector.new(disabled: false),
+  PreCommitHooks::SyntaxChecker.new(disabled: false)
+]).run
+
+exit runner.status
